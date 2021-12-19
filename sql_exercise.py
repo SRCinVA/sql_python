@@ -9,9 +9,22 @@ def create_table():
     conn.commit()
     conn.close()
 
-def insert(): # let's populate it with an item
+def insert(item, quantity, price): # let's populate it with an item
     conn=sqlite3.connect("lite.db")
     cur=conn.cursor()
-    cur.execute("INSERT INTO store VALUES ('wine glass', 8, 10.5)")  # use single quotes on the insdie 
+    cur.execute("INSERT INTO store VALUES (?,?,?)", (item,quantity,price))  # use single quotes on the insdie 
     conn.commit()
     conn.close()
+
+insert("coffee cup", 10, 3)
+
+def view():
+    conn=sqlite3.connect("lite.db")
+    cur=conn.cursor()
+    cur.execute("SELECT * FROM store")  # the SQL comamnds to query the DB
+    rows=cur.fetchall() # get them
+    conn.close() # close the connection
+    return rows # present the rows
+
+print(view()) # this prints out the output of view(), which are the returned rows
+
